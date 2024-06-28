@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../utils/cache_manager.dart';
+
 class ThemeProvider with ChangeNotifier {
   String currentTheme = "light";
 
@@ -15,9 +17,9 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void changeTheme(String theme) async {
-    final _prefs = await SharedPreferences.getInstance();
+    CacheManager.setString("theme", theme);
 
-    await _prefs.setString("theme", theme);
+   
 
     currentTheme = theme;
 
@@ -25,9 +27,9 @@ class ThemeProvider with ChangeNotifier {
   }
 
   void initialize() async {
-    final _prefs = await SharedPreferences.getInstance();
+    
 
-    currentTheme = _prefs.getString("theme") ?? "light";
+    currentTheme = CacheManager.getString("theme") ?? "light";
 
     notifyListeners();
   }
